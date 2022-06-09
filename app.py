@@ -59,7 +59,7 @@ def cadastro():
     body = request.get_json()
 
     try:
-        cadastro = Cadastro(codigo=body["codigo"], nome=body["nome"], email=body["email"])
+        cadastro = Cadastro(codigo=body["codigo"], nome=body["nome"], email=body["email"], password=body["password"])
         db.session.add(cadastro)
         db.session.commit()
         return gera_response(201, "cadastro", cadastro.to_json(), "Sucesso")
