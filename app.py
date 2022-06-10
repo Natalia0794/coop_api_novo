@@ -47,16 +47,20 @@ class Cadastro(db.Model):
 
 @app.route("/produto/<codigo>", methods=['GET'])
 def seleciona_produto(codigo):
-    produto_objeto = Jogos.query.filter_by(codigo=codigo).first()
-    produto_json = produto_objeto.to_json()
+    
+    try:
+        produto_objeto = Jogos.query.filter_by(codigo=codigo).first()
+        produto_json = produto_objeto.to_json()
 
-    return gera_response(200, "jogo", produto_json, "ok")
+        return gera_response(200, "jogo", produto_json, "ok")
+    except Exception as e:
+        return gera_response(400, "jogo", {}, "Produto não encontrado!")
 
 
 
 @app.route("/cadastro", methods=['POST'])
 def cadastro():
-    body = request.get_json()
+    body = request.get_json()   
 
     try:
         cadastro = Cadastro(codigo=body["codigo"], nome=body["nome"], email=body["email"], password=body["password"])
